@@ -1,10 +1,16 @@
 import React from 'react'
 
-const FaceRecognition = ({input}) => {
+const FaceRecognition = ({input, box}) => {
+  const {leftCol, topRow, rightCol, bottomRow} = box
   return (
     <div className="center ma">
     <div className="absolute mt2">
-      <img src={input} alt="Face(s)" width="500" height="auto"/>
+      <img id="inputImage" src={input} alt="Face(s)" width="500" height="auto"/>
+      <div 
+        className="bounding-box" 
+        style={{top: topRow, right: rightCol, bottom: bottomRow, left: leftCol}}
+      >
+      </div>
     </div>
     </div>
   )
