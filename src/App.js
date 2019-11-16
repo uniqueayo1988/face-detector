@@ -39,8 +39,8 @@ class App extends React.Component {
     route: 'signin',
     isSignedIn: false,
     user: {
-      id: '124',
-      name: '',
+      id: '123',
+      name: 'John',
       email: '',
       entries: 0,
       joined: ''      
@@ -90,12 +90,27 @@ class App extends React.Component {
     })
   }
 
-  onSubmit = () => {
+  onButtonSubmit = () => {
     app.models.predict(
         // "a403429f2ddf4b49b307e318f00e528b",
         Clarifai.FACE_DETECT_MODEL,
         this.state.input
-      ).then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+      ).then(response => {
+        if (response) {
+          fetch('http://localhost:8080/image', {
+            method: 'put',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, {entries: count}))
+            })
+        }
+        this.displayFaceBox(this.calculateFaceLocation(response))
+      })
       .catch(err => console.log(err))
   }
 
@@ -123,8 +138,8 @@ class App extends React.Component {
         { route === 'home'
           ? <div> 
             <Logo />
-            <Rank />
-            <ImageLinkForm onChange={this.onInputChange} onSubmit={this.onSubmit} />
+            <Rank rank={this.state.user.entries} name={this.state.user.name} />
+            <ImageLinkForm onChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
             <FaceRecognition box={box} input={input}/>
           </div>
           : (
