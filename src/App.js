@@ -59,9 +59,9 @@ class App extends React.Component {
 
   componentDidMount () {
     fetch('http://localhost:8080')
-      .then(response => response.json())
-      .then(data => console.log(data, 'hello....'))
-      // .then(console.log)
+      // .then(response => response.json())
+      .then(response => response.text())
+      .then(data => console.log(data))
   }
 
   calculateFaceLocation = (data) => {
@@ -144,7 +144,7 @@ class App extends React.Component {
           </div>
           : (
             route === 'signin'
-            ? <Signin onRouteChange={this.onRouteChange} />
+            ? <Signin onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
             : <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
           )
         }
