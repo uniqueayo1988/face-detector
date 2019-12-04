@@ -60,7 +60,7 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    fetch('http://localhost:8080')
+    fetch('https://nameless-anchorage-26722.herokuapp.com/')
       // .then(response => response.json())
       .then(response => response.text())
       .then(data => console.log(data))
@@ -99,7 +99,7 @@ class App extends React.Component {
         this.state.input
       ).then(response => {
         if (response) {
-          fetch('http://localhost:8080/image', {
+          fetch('https://nameless-anchorage-26722.herokuapp.com/image', {
             method: 'put',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({
